@@ -8,6 +8,7 @@ import {
   createContactSchema,
   updateContactSchema,
 } from '../validation/contact.js';
+import { uploads } from '../middlewares/multer.js';
 
 const router = Router();
 
@@ -23,6 +24,12 @@ router.get(
 
 router.post(
   '/',
+  // декілька файлів з різними ключами
+  // upload.fields([{name: "photo", maxCount: 1}, {name: "subphoto", maxCount: 4}])
+
+  // декілька файлів з одним ключем
+  // upload.array("photo", 8)
+  uploads.single('photo'),
   validateBody(createContactSchema),
   ctrlWrapper(contactsControllers.createContactController),
 );
@@ -43,6 +50,7 @@ router.put(
 router.patch(
   '/:contactId',
   isValidId,
+  uploads.single('photo'),
   validateBody(updateContactSchema),
   ctrlWrapper(contactsControllers.patchContactController),
 );

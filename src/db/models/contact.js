@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { handleSaveError, setUpdateSettings } from './hooks.js';
+import { emailRegExp } from '../../constants/users.js';
 
 export const typeListContactType = ['work', 'home', 'personal'];
 
@@ -9,6 +10,7 @@ const contactSchema = new Schema(
       type: String,
       required: true,
     },
+
     phoneNumber: {
       type: String,
       required: true,
@@ -16,6 +18,10 @@ const contactSchema = new Schema(
     email: {
       type: String,
       required: false,
+      match: emailRegExp,
+    },
+    photo: {
+      type: String,
     },
     isFavourite: {
       type: Boolean,
@@ -34,6 +40,9 @@ const contactSchema = new Schema(
     },
   },
   {
+    // Це додає до об'єкту два поля:
+    // createdAt(дата створення) та updatedAt(дата оновлення),
+    // і їх не потрібно додавати вручну.
     timestamps: true,
     versionKey: false,
   },

@@ -16,15 +16,15 @@ export const setupServer = () => {
 
   app.use(express.json());
   app.use(cookieParser());
-
-  // service cors для кросбраузерних запитів
+  app.use(express.static('uploads'));
   app.use(cors());
 
-  // service pino для виводу результату в консоль
   app.use(logger);
 
   app.get('/', (req, res) => {
-    res.json({message: "Congratulations, you're home.",});
+    res.json({
+      message: "Congratulations, you're home.",
+    });
   });
 
   app.use('/auth', authRouter);
