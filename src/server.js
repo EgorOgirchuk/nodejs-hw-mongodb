@@ -7,6 +7,8 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { logger } from './middlewares/logger.js';
 import authRouter from './routers/auth.js';
 import cookieParser from 'cookie-parser';
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
+import { UPLOADS_DIR } from './constants/index.js';
 
 const PORT = Number(process.env.PORT) || Number(getEnvVar('PORT', '3000'));
 
@@ -30,6 +32,9 @@ export const setupServer = () => {
   app.use('/auth', authRouter);
 
   app.use('/contacts', contactsRouter);
+
+  app.use('/uploads', express.static(UPLOADS_DIR));
+  app.use('/api-docs', swaggerDocs());
 
   app.use('*', notFoundHandler);
 
