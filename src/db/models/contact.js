@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import { handleSaveError, setUpdateSettings } from './hooks.js';
 
 export const typeListContactType = ['work', 'home', 'personal'];
 
@@ -16,7 +17,7 @@ const contactSchema = new Schema(
       type: String,
       required: false,
     },
-    isFavorite: {
+    isFavourite: {
       type: Boolean,
       default: false,
     },
@@ -26,14 +27,20 @@ const contactSchema = new Schema(
       enum: typeListContactType,
       default: 'personal',
     },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+    },
   },
   {
-    // Це додає до об'єкту два поля:
-    // createdAt(дата створення) та updatedAt(дата оновлення),
-    // і їх не потрібно додавати вручну.
     timestamps: true,
     versionKey: false,
   },
 );
+
+contactSchema.post('save', handleSaveError);
+contactSchema.pre('findOneAndUpdate', setUpdateSettings);
+contactSchema.post('findOneAndUpdate', handleSaveError);
 
 export const ContactsCollection = model('contacts', contactSchema);

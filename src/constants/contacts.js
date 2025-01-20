@@ -5,6 +5,6 @@ export const sortByList = [
   'name',
   'phoneNumber',
   'email',
-  'isFavorite',
+  'isFavourite',
   'contactType',
 ];

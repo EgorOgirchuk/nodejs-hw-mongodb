@@ -15,8 +15,12 @@ export const getAllContacts = async ({
   if (filter.contactType) {
     query.where('contactType').equals(filter.contactType);
   }
-  if (filter.isFavorite) {
-    query.where('isFavorite').equals(filter.isFavorite);
+  if (filter.isFavourite) {
+    query.where('isFavourite').equals(filter.isFavourite);
+  }
+
+  if (filter.userId) {
+    query.where('userId').equals(filter.userId);
   }
 
   const contactsCount = await ContactsCollection.find()
@@ -37,16 +41,17 @@ export const getAllContacts = async ({
   };
 };
 
-
 export const getContactById = (contactId) => ContactsCollection.findById(contactId);
+
+export const getContact = (filter) => ContactsCollection.findOne(filter);
 
 export const createContact = (contactData) => ContactsCollection.create(contactData);
 
-export const deleteContact = (contactId) => ContactsCollection.findByIdAndDelete(contactId);
+export const deleteContact = (filter) => ContactsCollection.findOneAndDelete(filter);
 
-export const updateContact = async (contactId, contactData, options = {}) => {
+export const updateContact = async (filter, contactData, options = {}) => {
   const rawResult = await ContactsCollection.findOneAndUpdate(
-    { _id: contactId },
+    filter,
     contactData,
     {
       new: true,

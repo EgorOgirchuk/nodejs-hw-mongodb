@@ -7,22 +7,22 @@ const parseContactType = (contactType) => {
   if (typeListContactType.includes(contactType)) return contactType;
 };
 
-const parseIsFavorite = (isFavorite) => {
-  const isString = typeof isFavorite === 'string';
+const parseIsFavourite = (isFavourite) => {
+  const isString = typeof isFavourite === 'string';
   if (!isString) return;
 
-  const favorite = (isFavorite) => ['true', 'false'].includes(isFavorite);
+  const favourite = (isFavourite) => ['true', 'false'].includes(isFavourite);
 
-  if (favorite(isFavorite)) return isFavorite;
+  if (favourite(isFavourite)) return isFavourite;
 };
 
 export const parseFilterParams = (query) => {
-  const { contactType, isFavorite } = query;
+  const { contactType, isFavourite } = query;
 
   const parsedContactType = parseContactType(contactType);
-  const parsedIsFavorite = parseIsFavorite(isFavorite);
+  const parsedIsFavourite = parseIsFavourite(isFavourite);
   return {
     contactType: parsedContactType,
-    isFavorite: parsedIsFavorite,
+    isFavourite: parsedIsFavourite,
   };
 };
